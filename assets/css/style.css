@@ -1,0 +1,80 @@
+/* Homework Assignment #7 - Train Scheduler
+// css custom styling
+// Rhonda Johnson 
+*/
+
+    html,
+    body { 
+    margin: 0px 10px 0px 10px; 
+    padding: 0;     
+    /*background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtfJuFzjmHwsYIkQRHPm6vRujvijw-bHlikvHGVke_l-4ljrT-5g");*/
+    background-image: url("../images/leaves1.jpg");
+    }
+
+   
+    .card{
+        margin-bottom: 10px;
+        border: solid 3px darkgray;
+    }
+
+    .card-header{
+        background-color: rgb(243, 228, 24);
+    }
+
+    input{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .center{
+        text-align: center;
+        content: center;
+    }
+   
+    #train-header{
+        background-color: red;
+        border: solid 3px darkgray;
+        margin-bottom: 0px;
+    }
+
+    .display-4{
+        font-weight: 600;
+    }
+
+    /* table styling */
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td, th {
+        border-top: 1px solid darkgray;
+        border-bottom: 1px solid darkgray;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    /* media queries */
+@media screen and (max-width:768px){
+   
+    #train{
+        height: 150px;
+        width: 200px;
+    }
+    .display-4{
+        font-size: 2.5rem;
+    }
+}
+
+@media screen and (max-width:640px){
+
+    #train{
+        height: 100px;
+        width: 150px;
+    }
+}

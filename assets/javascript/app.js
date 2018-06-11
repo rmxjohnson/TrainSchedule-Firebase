@@ -5,6 +5,7 @@
 
 $(document).ready(function () {
 
+    // jQuery variables assigned to HTML ids
     var trainBody = $("#train-body");
     var trainName = $("#train-name");
     var destination = $("#destination");
@@ -32,7 +33,7 @@ $(document).ready(function () {
     // Create a variable to reference the database
     var database = firebase.database();
 
-    // function to add a train when user clicks "SUBMIT"
+    // function to add a new train to the schedule when user clicks "SUBMIT"
     submitTrain.on("click", function (event) {
         // disable normal "SUBMIT" button behavior
         event.preventDefault();
@@ -50,10 +51,6 @@ $(document).ready(function () {
             return
         }
         else {
-            console.log("name = " + currentTrainName);
-            console.log("destination = " + currentDestination);
-            console.log("first time = " + currentFirstTrainTime);
-            console.log("frequency = " + currentFrequency);
 
             // create new train object to be saved in firebase
             var newTrain = {
@@ -70,17 +67,10 @@ $(document).ready(function () {
         }
     });
 
-    // Firebase watcher + initial loader 
+    // Initial loader and Firebase watcher with a child is added
     database.ref().on("child_added", function (childSnapshot) {
 
-        // Log everything that's coming out of snapshot
-        console.log(childSnapshot.val().oName);
-        console.log(childSnapshot.val().oDestination);
-        console.log(childSnapshot.val().oFirstTime);
-        console.log(childSnapshot.val().oFrequency);
-        console.log("key = " + childSnapshot.key);
-
-        // Store everything into a variable.
+        // Store everything coming out of snapshot into a variable.
         var trainName = childSnapshot.val().oName.toUpperCase();
         var trainDestination = childSnapshot.val().oDestination.toUpperCase();
         var tempTime = childSnapshot.val().oSFirstTime;
@@ -91,27 +81,21 @@ $(document).ready(function () {
 
         // First Time (pushed back 1 year to make sure it comes before current time)
         var firstTrainTimeConverted = moment(firstTrainTime, "hh:mm a").subtract(1, "years");
-        console.log(firstTrainTimeConverted);
 
         // Current Time
         var currentTime = moment();
-        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm a"));
 
         // Difference between the current time and the first train time
         var diffTime = moment().diff(moment(firstTrainTimeConverted), "minutes");
-        console.log("DIFFERENCE IN TIME: " + diffTime);
 
         // Time apart (remainder)
         var tRemainder = diffTime % trainFrequency;
-        console.log(tRemainder);
 
         // Minutes Until Next Train
         var tMinutesTillTrain = trainFrequency - tRemainder;
-        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
         // Next Train Time = [(current time) + (minutes until next train)]
         var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm a"));
         var nextArrival = moment(nextTrain).format("hh:mm a");
 
         //create a new table row with correct table data elements
@@ -149,34 +133,18 @@ $(document).ready(function () {
         // append the new row to the train info table
         trainBody.append(newRow);
 
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Alternate working code: create an html string to add the row to the train info table
-        // var buttonHTML = "<button class='btn btn-danger delete-btn' data-key=" + dataKey + ">DELETE</button>";
-        // console.log("buttonhtml = " + buttonHTML);
-        // // create html
-        // var html = "<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>"
-        //     + trainFrequency + " min" + "</td><td>" + nextArrival + "</td><td>" + tMinutesTillTrain + " min"
-        //     + "</td><td>" + buttonHTML + "</td></tr>";
-        // trainBody.append(html);
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
         // Handle the errors
     }, function (errorObject) {
         console.log("Errors handled: " + errorObject.code);
     });
 
-    //window.location.reload(true);
-
-
+    
     // When click "DELETE" button, remove row from Firebase & from page view
     // Used "tbody" since that is the closest static (not dynamically created) element
     $('tbody').on("click", "button.delete-btn", function (event) {
         // disable normal "SUBMIT" button behavior
         event.preventDefault();
-        alert("I clicked delete");
+        
         // get the current firebase key from the button's data-key attribute
         var currentKey = ($(this).attr("data-key"));
 

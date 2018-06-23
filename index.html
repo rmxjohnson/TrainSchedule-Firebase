@@ -132,5 +132,23 @@
     </div>
 
 </body>
+<script>
+     $(function() {
+    $('#datetimepicker').datetimepicker({
+        minDate:new Date(),
+      disabledDates: [new Date()],
+      inline: true,
+      sideBySide: false
+    });
+    $('#datetimepicker').on('dp.change', function(event) {
+      //console.log(moment(event.date).format('MM/DD/YYYY h:mm a'));
+      //console.log(event.date.format('MM/DD/YYYY h:mm a'));
+      $('#selected-date').text(event.date);
+      var formatted_date = event.date.format('MM/DD/YYYY');
+      $('#my_hidden_input').val(formatted_date);
+      $('#hidden-val').text($('#my_hidden_input').val());
+    });
+   });
+</script>
 
 </html>

@@ -3,6 +3,9 @@ Readme for Homework Assignment 7
 Firebase - persistent data
 Rhonda Johnson
 
+Link to deployed project
+https://rmxjohnson.github.io/TrainSchedule-Firebase/
+
 Built with:
 HTML5
 CSS3 - styling
